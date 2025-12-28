@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronPulse - Delete Account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #f5f5f5;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: rgba(30, 30, 40, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            color: #d4af37;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        h2 {
+            color: #ef4444;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+
+        .warning-box p {
+            color: #fca5a5;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .warning-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .warning-box strong {
+            color: #ef4444;
+        }
+
+        .data-list {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+
+        .data-list h4 {
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .data-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .data-list li {
+            color: #aaa;
+            font-size: 0.9rem;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .data-list li::before {
+            content: "•";
+            color: #ef4444;
+            position: absolute;
+            left: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #888;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .confirm-label {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .confirm-label span {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-delete:hover:not(:disabled) {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete:disabled {
+            background: rgba(239, 68, 68, 0.3);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: #888;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .status {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            display: block;
+        }
+
+        .status.success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #86efac;
+            display: block;
+        }
+
+        .status.loading {
+            background: rgba(212, 175, 55, 0.15);
+            color: #d4af37;
+            display: block;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer p {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        .success-card {
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .success-card h2 {
+            color: #22c55e;
+            margin-bottom: 15px;
+        }
+
+        .success-card p {
+            color: #888;
+        }
+
+        #successView {
+            display: none;
+        }
+
+        #formView {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo">
+                <img src="logo-transparent.png" alt="IronPulse Logo" class="logo-img">
+                <h1>IronPulse</h1>
+                <p>Account Deletion</p>
+            </div>
+
+            <!-- Form View -->
+            <div id="formView">
+                <h2>⚠️ Delete Your Account</h2>
+
+                <div class="warning-box">
+                    <p><strong>⚠️ Warning:</strong> This action is <strong>permanent and immediate</strong>.</p>
+                    <p>All your data will be deleted the moment you confirm. There is no recovery or undo option.</p>
+                </div>
+
+                <div class="data-list">
+                    <h4>Data that will be deleted:</h4>
+                    <ul>
+                        <li>All workout history & sessions</li>
+                        <li>Personal records & achievements</li>
+                        <li>Body weight tracking data</li>
+                        <li>Workout schedules & plans</li>
+                        <li>Profile & account information</li>
+                    </ul>
+                </div>
+
+                <form id="deleteForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <p class="confirm-label">Type <span>DELETE</span> to confirm:</p>
+                        <input type="text" id="confirmText" placeholder="Type DELETE" autocomplete="off">
+                    </div>
+
+                    <button type="submit" class="btn btn-delete" id="deleteBtn" disabled>
+                        Delete My Account Forever
+                    </button>
+                </form>
+
+                <div id="status" class="status"></div>
+            </div>
+
+            <!-- Success View -->
+            <div id="successView" class="success-card">
+                <div class="success-icon">✅</div>
+                <h2>Account Deleted</h2>
+                <p>Your IronPulse account and all associated data have been permanently deleted.</p>
+                <p style="margin-top: 15px;">You can uninstall the app from your device.</p>
+            </div>
+
+            <div class="footer">
+                <p>Need help? Contact <a href="mailto:imkolabs@gmail.com">imkolabs@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, deleteUser } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, getDocs, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase config (same as in the app)
+        const firebaseConfig = {
+            apiKey: "AIzaSyC0v0lcm_iypPdMitAMsanVs_g6GEHD1cw",
+            authDomain: "ironpulse-7310b.firebaseapp.com",
+            projectId: "ironpulse-7310b",
+            storageBucket: "ironpulse-7310b.firebasestorage.app",
+            messagingSenderId: "869108756116",
+            appId: "1:869108756116:web:df3367bd3a792a5483ce81"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM elements
+        const form = document.getElementById('deleteForm');
+        const confirmInput = document.getElementById('confirmText');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const statusDiv = document.getElementById('status');
+        const formView = document.getElementById('formView');
+        const successView = document.getElementById('successView');
+
+        // Enable/disable delete button based on confirmation text
+        confirmInput.addEventListener('input', () => {
+            deleteBtn.disabled = confirmInput.value !== 'DELETE';
+        });
+
+        // Show status message
+        function showStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = 'status ' + type;
+        }
+
+        // Delete all documents in a collection
+        async function deleteCollection(userId, collectionName) {
+            const colRef = collection(db, 'users', userId, collectionName);
+            const snapshot = await getDocs(colRef);
+            const deletePromises = snapshot.docs.map(docSnap => deleteDoc(docSnap.ref));
+            await Promise.all(deletePromises);
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmText = confirmInput.value;
+
+            if (confirmText !== 'DELETE') {
+                showStatus('Please type DELETE to confirm', 'error');
+                return;
+            }
+
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = 'Deleting...';
+            showStatus('Signing in...', 'loading');
+
+            try {
+                // Sign in
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                const userId = user.uid;
+
+                showStatus('Deleting workout data...', 'loading');
+
+                // Delete all subcollections
+                await deleteCollection(userId, 'workouts');
+                await deleteCollection(userId, 'bodyWeight');
+                await deleteCollection(userId, 'schedule');
+
+                showStatus('Deleting account...', 'loading');
+
+                // Delete user document
+                await deleteDoc(doc(db, 'users', userId));
+
+                // Delete auth account
+                await deleteUser(user);
+
+                // Show success
+                formView.style.display = 'none';
+                successView.style.display = 'block';
+
+            } catch (error) {
+                console.error('Error:', error);
+                deleteBtn.disabled = false;
+                deleteBtn.textContent = 'Delete My Account Forever';
+
+                if (error.code === 'auth/user-not-found') {
+                    showStatus('No account found with this email.', 'error');
+                } else if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                    showStatus('Incorrect password. Please try again.', 'error');
+                } else if (error.code === 'auth/too-many-requests') {
+                    showStatus('Too many attempts. Please try again later.', 'error');
+                } else if (error.code === 'auth/invalid-email') {
+                    showStatus('Invalid email address.', 'error');
+                } else {
+                    showStatus('Error: ' + error.message, 'error');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
